@@ -1,6 +1,10 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
+
+//stylesheet
 import "./menu-item.styles.scss";
+
+// functional based component
 const MenuItem = ({ title, imageUrl, size, linkUrl, history, match }) => (
   <div
     className={`${size} menu-item`}

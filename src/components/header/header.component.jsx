@@ -1,9 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
+// using svg images in react
 import { ReactComponent as Logo } from "../../assets/crown.svg";
+
+// firebase componet registry
+import { auth } from "../../firebase/firebase.utils";
+
+// stylesheets
 import "./header.styles.scss";
 
-const Header = () => (
+const Header = ({ currentUser }) => (
   <div className="header">
     <Link to="/" className="logo-container">
       <Logo className="logo" />
@@ -15,9 +22,15 @@ const Header = () => (
       <Link to="/contact" className="option">
         CONTACT
       </Link>
-      <Link to="/signin" className="option">
-        SIGN IN
-      </Link>
+      {currentUser ? (
+        <div className="option" onClick={() => auth.signOut()}>
+          SIGN OUT
+        </div>
+      ) : (
+        <Link to="/signin" className="option">
+          SIGN IN
+        </Link>
+      )}
     </div>
   </div>
 );
