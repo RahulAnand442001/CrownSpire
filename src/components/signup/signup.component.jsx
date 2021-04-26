@@ -37,7 +37,6 @@ class SignUp extends Component {
     } catch (error) {
       console.log("Error : ", error);
     }
-
     this.state = {
       displayName: "",
       email: "",
