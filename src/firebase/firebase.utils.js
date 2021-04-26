@@ -2,24 +2,42 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 
-// firebase initialization
+// initialize firebase app with account configurations
 const firebaseConfig = {
-  apiKey: "AIzaSyA6pnqrcvWUid9u-J5G88Vupy0dZcvJUtI",
-  authDomain: "crwn-clothing-db-1e69c.firebaseapp.com",
-  projectId: "crwn-clothing-db-1e69c",
-  storageBucket: "crwn-clothing-db-1e69c.appspot.com",
-  messagingSenderId: "486073570310",
-  appId: "1:486073570310:web:5b1c1b2f957a23d3675f87",
+  apiKey: `${process.env.REACT_APP_FIREBASE_API_KEY}`,
+  authDomain: `${process.env.REACT_APP_FIREBASE_AUTH_DOMAIN}`,
+  projectId: `${process.env.REACT_APP_FIREBASE_PROJECT_ID}`,
+  storageBucket: `${process.env.REACT_APP_FIREBASE_STORAGE_BUCKET}`,
+  messagingSenderId: `${process.env.REACT_APP_FIREBASE_MSG_SENDER_ID}`,
+  appId: `${process.env.REACT_APP_FIREBASE_APP_ID}`,
 };
 firebase.initializeApp(firebaseConfig);
 
+// firebase auth service
 export const auth = firebase.auth();
-export const firestore = firebase.firestore();
-
-// firebase authentication configuration
-
 const provider = new firebase.auth.GoogleAuthProvider();
 provider.setCustomParameters({ prompt: "select_account" });
 export const signInWithGoogle = () => auth.signInWithPopup(provider);
 
+// saving user data in firestore
+export const firestore = firebase.firestore();
+
+export const createUserProfileDocument = async (userAuth, additionalData) => {
+  if (!userAuth) return;
+  const userRef = firestore.doc(`users/${userAuth.uid}`);
+  const snapShot = await userRef.get();
+  if (!snapShot.exists) {
+    const { displayName, email } = userAuth;
+    const createdAt = new Date();
+
+    try {
+      await userRef.set({ displayName, email, createdAt, ...additionalData });
+    } catch (error) {
+      console.log("error creating user : ", error);
+    }
+  }
+  return userRef;
+};
+
+// global firebase export
 export default firebase;
