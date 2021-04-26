@@ -22,6 +22,7 @@ class App extends React.Component {
   // monitoring status of user Authentication
   unsubscribeFromAuth = null;
 
+  // managing continuous auth status of user
   componentDidMount() {
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
