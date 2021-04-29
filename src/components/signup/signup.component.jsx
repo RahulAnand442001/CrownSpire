@@ -35,7 +35,7 @@ class SignUp extends Component {
       );
       await createUserProfileDocument(user, { displayName });
     } catch (error) {
-      console.log("Error : ", error);
+      console.log(error);
     }
     this.state = {
       displayName: "",
