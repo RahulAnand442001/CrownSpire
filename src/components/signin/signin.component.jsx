@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
 // custom components
 import FormInput from "../form-input/form-input.component";
 import CustomButton from "../custom-button/custom-button.component";
@@ -14,7 +13,6 @@ class SignIn extends Component {
     this.state = {
       email: "",
       password: "",
-      redirect: false,
     };
   }
 
@@ -36,9 +34,6 @@ class SignIn extends Component {
   };
 
   render() {
-    if (this.state.redirect) {
-      return <Redirect to="/" />;
-    }
     return (
       <div className="sign-in">
         <h2>I already have an account</h2>
