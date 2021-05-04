@@ -8,10 +8,10 @@ import SignUp from "../../components/signup/signup.component";
 import "./auth.styles.scss";
 
 const SignInSignUpPage = () => (
-  <div className="sign-in-sign-up">
-    <SignIn />
-    <SignUp />
-  </div>
+	<div className="sign-in-sign-up">
+		<SignIn />
+		<SignUp />
+	</div>
 );
 
 export default SignInSignUpPage;
