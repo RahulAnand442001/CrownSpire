@@ -10,9 +10,7 @@ import { createStructuredSelector } from "reselect";
 import {
 	HeaderContainer,
 	LogoContainer,
-	OptionDiv,
 	OptionsContainer,
-	OptionLink,
 } from "./header.styles";
 
 // using svg images in react
@@ -25,18 +23,34 @@ import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 import { selectCartHidden } from "../../redux/cart/cart.selectors";
 import { selectCurrentUser } from "../../redux/user/user.selectors";
 
+// CSS in JS styling in react
+
+const linkStyle = {
+	padding: "10px 15px ",
+	fontSize: "22px",
+	cursor: "pointer",
+};
+
 const Header = ({ currentUser, hidden }) => (
 	<HeaderContainer>
 		<LogoContainer to="/">
 			<Logo className="logo" />
 		</LogoContainer>
 		<OptionsContainer>
-			<OptionLink to="/shop">SHOP</OptionLink>
-			<OptionLink to="/contact">CONTACT</OptionLink>
+			<Link style={linkStyle} to="/shop">
+				SHOP
+			</Link>
+			<Link style={linkStyle} to="/contact">
+				CONTACT
+			</Link>
 			{currentUser ? (
-				<OptionDiv onClick={() => auth.signOut()}>SIGN OUT</OptionDiv>
+				<Link style={linkStyle} onClick={() => auth.signOut()}>
+					SIGN OUT
+				</Link>
 			) : (
-				<OptionLink to="/signin">SIGN IN</OptionLink>
+				<Link style={linkStyle} to="/signin">
+					SIGN IN
+				</Link>
 			)}
 			<CartIcon />
 		</OptionsContainer>
