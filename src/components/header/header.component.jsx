@@ -44,7 +44,7 @@ const Header = ({ currentUser, hidden }) => (
 				CONTACT
 			</Link>
 			{currentUser ? (
-				<Link style={linkStyle} onClick={() => auth.signOut()}>
+				<Link to="/" href="#" style={linkStyle} onClick={() => auth.signOut()}>
 					SIGN OUT
 				</Link>
 			) : (
