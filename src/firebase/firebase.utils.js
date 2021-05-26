@@ -14,6 +14,7 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
+// firestore service
 export const addCollectionAndDocuments = async (
 	collectionKey,
 	objectsToAdd,
@@ -28,46 +29,34 @@ export const addCollectionAndDocuments = async (
 	return await batch.commit();
 };
 
-export const convertCollectionsSnapshotToMap = (
-	collections,
-) => {
-	const transformedCollection = collections.docs.map(
-		(doc) => {
-			const { title, items } = doc.data();
+export const convertCollectionsSnapshotToMap = (collections) => {
+	const transformedCollection = collections.docs.map((doc) => {
+		const { title, items } = doc.data();
 
-			return {
-				routeName: encodeURI(title.toLowerCase()),
-				id: doc.id,
-				title,
-				items,
-			};
-		},
-	);
-	return transformedCollection.reduce(
-		(accumulator, collection) => {
-			accumulator[collection.title.toLowerCase()] =
-				collection;
-			return accumulator;
-		},
-		{},
-	);
+		return {
+			routeName: encodeURI(title.toLowerCase()),
+			id: doc.id,
+			title,
+			items,
+		};
+	});
+	return transformedCollection.reduce((accumulator, collection) => {
+		accumulator[collection.title.toLowerCase()] = collection;
+		return accumulator;
+	}, {});
 };
 
 // firebase auth service
 export const auth = firebase.auth();
 const provider = new firebase.auth.GoogleAuthProvider();
 provider.setCustomParameters({ prompt: "select_account" });
-export const signInWithGoogle = () =>
-	auth.signInWithPopup(provider);
+export const signInWithGoogle = () => auth.signInWithPopup(provider);
 
 // saving user data in firestore
 export const firestore = firebase.firestore();
 
 // NOTE: This function is for one time use only
-export const createUserProfileDocument = async (
-	userAuth,
-	additionalData,
-) => {
+export const createUserProfileDocument = async (userAuth, additionalData) => {
 	if (!userAuth) return;
 	const userRef = firestore.doc(`users/${userAuth.uid}`);
 	const snapShot = await userRef.get();

@@ -1,22 +1,26 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Route } from "react-router-dom";
+
+// firebase
 import {
 	firestore,
 	convertCollectionsSnapshotToMap,
 } from "../../firebase/firebase.utils";
+
+// redux components
 import { updateCollections } from "../../redux/shop/shop.actions";
+
 // custom components
 import CollectionOverview from "../../components/collections-overview/collection-overview.component";
 import CollectionPage from "../collection/collection.component";
 import WithSpinner from "../../components/with-spinner/with-spinner.component";
 
-const ColectionOverviewWithSpinner = WithSpinner(
-	CollectionOverview,
-);
+// HOC
+const ColectionOverviewWithSpinner = WithSpinner(CollectionOverview);
+const CollectionPageWithSpinner = WithSpinner(CollectionPage);
 
-const CollectionPageWithSpinner =
-	WithSpinner(CollectionPage);
+// class component
 class ShopPage extends React.Component {
 	constructor() {
 		super();
@@ -24,20 +28,16 @@ class ShopPage extends React.Component {
 			loading: true,
 		};
 	}
-	unsubscribeFromSnapShot = null;
 
 	componentDidMount() {
 		const { updateCollections } = this.props;
-		const collectionRef =
-			firestore.collection("collections");
-		this.unsubscribeFromSnapShot = collectionRef.onSnapshot(
-			async (snapshot) => {
-				const collectionsMap =
-					convertCollectionsSnapshotToMap(snapshot);
-				updateCollections(collectionsMap);
-				this.setState({ loading: false });
-			},
-		);
+		const collectionRef = firestore.collection("collections");
+
+		collectionRef.get().then((snapshot) => {
+			const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
+			updateCollections(collectionsMap);
+			this.setState({ loading: false });
+		});
 	}
 
 	render() {
@@ -49,19 +49,13 @@ class ShopPage extends React.Component {
 					exact
 					path={`${match.path}`}
 					render={(props) => (
-						<ColectionOverviewWithSpinner
-							isLoading={loading}
-							{...props}
-						/>
+						<ColectionOverviewWithSpinner isLoading={loading} {...props} />
 					)}
 				/>
 				<Route
 					path={`${match.path}/:collectionId`}
 					render={(props) => (
-						<CollectionPageWithSpinner
-							isLoading={loading}
-							{...props}
-						/>
+						<CollectionPageWithSpinner isLoading={loading} {...props} />
 					)}
 				/>
 			</div>

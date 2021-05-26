@@ -14,10 +14,7 @@ import ShopPage from "./pages/shop/shop.component";
 import CheckoutPage from "./pages/checkout/checkout.component";
 
 // firebase util components
-import {
-	auth,
-	createUserProfileDocument,
-} from "./firebase/firebase.utils";
+import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 
 // redux components
 import { setCurrentUser } from "./redux/user/user.actions";
@@ -32,24 +29,20 @@ class App extends React.Component {
 	componentDidMount() {
 		const { setCurrentUser } = this.props;
 
-		this.unsubscribeFromAuth = auth.onAuthStateChanged(
-			async (userAuth) => {
-				if (userAuth) {
-					const userRef = await createUserProfileDocument(
-						userAuth,
-					);
-					userRef.onSnapshot((snapshot) => {
-						setCurrentUser({
-							currentUser: {
-								id: snapshot.id,
-								...snapshot.data(),
-							},
-						});
+		this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
+			if (userAuth) {
+				const userRef = await createUserProfileDocument(userAuth);
+				userRef.onSnapshot((snapshot) => {
+					setCurrentUser({
+						currentUser: {
+							id: snapshot.id,
+							...snapshot.data(),
+						},
 					});
-				}
-				setCurrentUser(userAuth);
-			},
-		);
+				});
+			}
+			setCurrentUser(userAuth);
+		});
 	}
 
 	componentWillUnmount() {
@@ -63,11 +56,7 @@ class App extends React.Component {
 				<Switch>
 					<Route exact path="/" component={HomePage} />
 					<Route path="/shop" component={ShopPage} />
-					<Route
-						exact
-						path="/checkout"
-						component={CheckoutPage}
-					/>
+					<Route exact path="/checkout" component={CheckoutPage} />
 					<Route
 						exact
 						path="/signin"
@@ -92,7 +81,4 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = (dispatch) => ({
 	setCurrentUser: (user) => dispatch(setCurrentUser(user)),
 });
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
