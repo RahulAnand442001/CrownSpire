@@ -17,11 +17,11 @@ import {
 import { ReactComponent as Logo } from "../../assets/crown.svg";
 
 // firebase componet registry
-import { auth } from "../../firebase/firebase.utils";
 import CartIcon from "../cart-icon/cart-icon.component";
 import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 import { selectCartHidden } from "../../redux/cart/cart.selectors";
 import { selectCurrentUser } from "../../redux/user/user.selectors";
+import { signOutStart } from "../../redux/user/user.actions";
 
 // CSS in JS styling in react
 
@@ -31,7 +31,7 @@ const linkStyle = {
 	cursor: "pointer",
 };
 
-const Header = ({ currentUser, hidden }) => (
+const Header = ({ currentUser, hidden, signOutStart }) => (
 	<HeaderContainer>
 		<LogoContainer to="/">
 			<Logo className="logo" />
@@ -44,7 +44,7 @@ const Header = ({ currentUser, hidden }) => (
 				CONTACT
 			</Link>
 			{currentUser ? (
-				<Link to="/" href="#" style={linkStyle} onClick={() => auth.signOut()}>
+				<Link to="/" style={linkStyle} onClick={signOutStart}>
 					SIGN OUT
 				</Link>
 			) : (
@@ -63,4 +63,8 @@ const mapStateToProps = createStructuredSelector({
 	hidden: selectCartHidden,
 });
 
-export default connect(mapStateToProps)(Header);
+const mapDispatchToProps = (dispatch) => ({
+	signOutStart: () => dispatch(signOutStart()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
