@@ -18,9 +18,7 @@ import { selectCurrentUser } from "./redux/user/user.selectors";
 import { checkUserSession } from "./redux/user/user.actions";
 
 // react class component
-const App = (props) => {
-	const { checkUserSession, currentUser } = props;
-
+const App = ({ checkUserSession, currentUser }) => {
 	useEffect(() => {
 		checkUserSession();
 	}, [checkUserSession]);
