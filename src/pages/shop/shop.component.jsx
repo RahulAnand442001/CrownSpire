@@ -1,7 +1,7 @@
 import React, { useEffect, lazy, Suspense } from "react";
 import { connect } from "react-redux";
 import { Route } from "react-router-dom";
-import Spinner from "../../components/loading-spinner/spinner.componen";
+import Spinner from "../../components/loading-spinner/spinner.component";
 
 // redux components
 import { fetchCollectionsStart } from "../../redux/shop/shop.actions";

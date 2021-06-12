@@ -1,5 +1,5 @@
 import React from "react";
-import Spinner from "../loading-spinner/spinner.componen";
+import Spinner from "../loading-spinner/spinner.component";
 
 const WithSpinner =
 	(WrappedComponent) =>
