@@ -10,6 +10,7 @@ import "./auth.styles.scss";
 const SignInSignUpPage = () => (
 	<div className="sign-in-sign-up">
 		<SignIn />
+		<hr id="divider" />
 		<SignUp />
 	</div>
 );

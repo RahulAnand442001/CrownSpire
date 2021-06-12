@@ -11,6 +11,10 @@ $main-color: black;
 	position: relative;
 	margin: 45px 0;
 
+	@media screen and (max-width: 800px) {
+		margin: 0;
+	}
+
 	.form-input {
 		background: none;
 		background-color: white;
@@ -23,6 +27,11 @@ $main-color: black;
 		border-radius: 0;
 		border-bottom: 1px solid $sub-color;
 		margin: 25px 0;
+
+		@media screen and (max-width: 800px) {
+			padding: 5px;
+			width: 80%;
+		}
 
 		&:focus {
 			outline: none;
