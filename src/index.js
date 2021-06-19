@@ -1,5 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import * as serviceWorker from "./service-worker";
+
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
@@ -20,3 +22,5 @@ ReactDOM.render(
 	</React.StrictMode>,
 	document.getElementById("root"),
 );
+
+serviceWorker.register();
